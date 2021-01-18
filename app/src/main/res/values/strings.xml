@@ -6,4 +6,5 @@
     <string name="how_to_play_label">How to Play:</string>
     <string name="how_to_play_text">Tap the \'Play Now!\' Button to start the Game</string>
     <string name="play_now_label">Play Now!</string>
+    <string name="gameFragment_header_text">Question</string>
 </resources>
