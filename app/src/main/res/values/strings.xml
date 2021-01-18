@@ -2,4 +2,8 @@
     <string name="app_name">Trivonian</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_text">Welcome To Trivonian</string>
+    <string name="how_to_play_label">How to Play:</string>
+    <string name="how_to_play_text">Tap the \'Play Now!\' Button to start the Game</string>
+    <string name="play_now_label">Play Now!</string>
 </resources>
