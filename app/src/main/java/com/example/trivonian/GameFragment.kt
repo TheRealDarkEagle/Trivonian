@@ -30,12 +30,12 @@ class GameFragment : Fragment() {
         questionTextView.text = question.questionText
 
         val buttonOne = view.findViewById<RadioButton>(R.id.radioButton1)
-        buttonOne.text = question.answers.get(0)
+        buttonOne.text = question.answers[0]
         val buttonTwo = view.findViewById<RadioButton>(R.id.radioButton2)
-        buttonTwo.text = question.answers.get(1)
+        buttonTwo.text = question.answers[1]
         val buttonThree = view.findViewById<RadioButton>(R.id.radioButton3)
-        buttonThree.text = question.answers.get(2)
+        buttonThree.text = question.answers[2]
         val buttonFour = view.findViewById<RadioButton>(R.id.radioButton4)
-        buttonFour.text = question.answers.get(3)
+        buttonFour.text = question.answers[3]
     }
 }
