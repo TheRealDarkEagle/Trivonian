@@ -16,10 +16,9 @@ class GameFragmentViewModel : ViewModel() {
 
     fun setUserAnswer(answer: String) {
         repository.saveAnswer(answer)
-        userAnswer = answer
     }
     fun getUserAnswer(): String {
-        return userAnswer
+        return repository.getUserAnswer()
     }
 
 

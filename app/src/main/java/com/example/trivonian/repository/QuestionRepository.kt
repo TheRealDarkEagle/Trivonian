@@ -17,4 +17,8 @@ class QuestionRepository {
     fun saveAnswer(answer: String) {
         userAnswer = answer
     }
+
+    fun getUserAnswer(): String {
+        return userAnswer
+    }
 }
