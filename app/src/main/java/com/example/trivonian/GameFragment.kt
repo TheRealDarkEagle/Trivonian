@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.navigation.findNavController
+import com.example.trivonian.dataclasses.Question
 import org.w3c.dom.Text
 
 class GameFragment : Fragment() {
 
 
-    //TODO("Auslagern der Frage Klasse")
-    data class Question(val questionText: String, val answers: List<String>, val correctAnswer: String)
 
     //Todo("erhalt der frage mittels übergebenem objekt implementieren -> vllt komplette liste und fragenIndex?")
     val question = Question("In the Kingdom Heart series who provides the english voice for Master Eraqus?",
@@ -54,7 +54,11 @@ class GameFragment : Fragment() {
                     break
                 }
             }
+
+            view.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
+
+
 
     }
 }
