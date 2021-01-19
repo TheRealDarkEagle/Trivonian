@@ -2,23 +2,22 @@ package com.example.trivonian.gameFragment
 
 import androidx.lifecycle.ViewModel
 import com.example.trivonian.dataclasses.Question
+import com.example.trivonian.repository.QuestionRepository
 
 class GameFragmentViewModel : ViewModel() {
 
+    private val repository = QuestionRepository()
     private var userAnswer: String = ""
+    var question: Question
 
-    fun getQuestion(): Question {
-        //Todo("Frage(n) aus dem Repo erhalten -> Repo anlegen!")
-        val question = Question(
-            "In the Kingdom Heart series who provides the english voice for Master Eraqus?",
-            listOf("Mark Hamill", "Jason Dohring", "Jesse McCartney", "Haley Joel Osment"),
-            "Mark Hamill"
-        )
-        return question
+    init {
+        question = repository.getRandomQuestion()
     }
 
-    fun setAnswer(answer: String) {
-        userAnswer = answer
+    fun setUserAnswer(answer: String) {
+        repository.saveAnswer(answer)
     }
+
+
 
 }

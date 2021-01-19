@@ -29,16 +29,16 @@ class GameFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val questionTextView = view.findViewById<TextView>(R.id.gameFragment_question)
-        questionTextView.text = viewModel.getQuestion().questionText
+        questionTextView.text = viewModel.question.questionText
 
         val buttonOne = view.findViewById<RadioButton>(R.id.radioButton1)
-        buttonOne.text = viewModel.getQuestion().answers[0]
+        buttonOne.text = viewModel.question.answers[0]
         val buttonTwo = view.findViewById<RadioButton>(R.id.radioButton2)
-        buttonTwo.text = viewModel.getQuestion().answers[1]
+        buttonTwo.text = viewModel.question.answers[1]
         val buttonThree = view.findViewById<RadioButton>(R.id.radioButton3)
-        buttonThree.text = viewModel.getQuestion().answers[2]
+        buttonThree.text = viewModel.question.answers[2]
         val buttonFour = view.findViewById<RadioButton>(R.id.radioButton4)
-        buttonFour.text = viewModel.getQuestion().answers[3]
+        buttonFour.text = viewModel.question.answers[3]
 
         val radioButtons = listOf<RadioButton>(buttonOne, buttonTwo, buttonThree, buttonFour)
 
@@ -46,7 +46,7 @@ class GameFragment : Fragment() {
         view.findViewById<Button>(R.id.gameFragment_nextButton).setOnClickListener {
             for (radioButton in radioButtons) {
                 if (radioButton.isChecked) {
-                    viewModel.setAnswer(radioButton.text.toString())
+                    viewModel.setUserAnswer(radioButton.text.toString())
                     break
                 }
             }
