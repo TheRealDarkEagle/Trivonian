@@ -6,10 +6,10 @@ class QuestionRepository {
 
     private var userAnswer: String = ""
 
-    fun getRandomQuestion(): Question {
+    fun getQuestion(): Question {
         return Question(
             "In the Kingdom Heart series who provides the english voice for Master Eraqus?",
-            listOf("Mark Hamill", "Jason Dohring", "Jesse McCartney", "Haley Joel Osment"),
+            listOf("Jason Dohring", "Jesse McCartney", "Haley Joel Osment"),
             "Mark Hamill"
         )
     }

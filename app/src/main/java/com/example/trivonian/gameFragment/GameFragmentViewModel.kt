@@ -11,11 +11,15 @@ class GameFragmentViewModel : ViewModel() {
     var question: Question
 
     init {
-        question = repository.getRandomQuestion()
+        question = repository.getQuestion()
     }
 
     fun setUserAnswer(answer: String) {
         repository.saveAnswer(answer)
+        userAnswer = answer
+    }
+    fun getUserAnswer(): String {
+        return userAnswer
     }
 
 

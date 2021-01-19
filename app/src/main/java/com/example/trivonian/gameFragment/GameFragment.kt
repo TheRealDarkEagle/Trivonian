@@ -38,7 +38,7 @@ class GameFragment : Fragment() {
         val buttonThree = view.findViewById<RadioButton>(R.id.radioButton3)
         buttonThree.text = viewModel.question.answers[2]
         val buttonFour = view.findViewById<RadioButton>(R.id.radioButton4)
-        buttonFour.text = viewModel.question.answers[3]
+        buttonFour.text = viewModel.question.correctAnswer
 
         val radioButtons = listOf<RadioButton>(buttonOne, buttonTwo, buttonThree, buttonFour)
 
@@ -57,7 +57,7 @@ class GameFragment : Fragment() {
     }
 
     private fun directToResultFragment() {
-        val action = GameFragmentDirections.actionGameFragmentToResultFragment()
+        val action = GameFragmentDirections.actionGameFragmentToResultFragment(viewModel.question.questionText, viewModel.getUserAnswer(), viewModel.question.correctAnswer)
         view?.findNavController()?.navigate(action)
     }
 }
