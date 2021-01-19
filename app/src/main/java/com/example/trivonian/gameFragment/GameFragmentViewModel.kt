@@ -8,10 +8,17 @@ class GameFragmentViewModel : ViewModel() {
 
     private val repository = QuestionRepository()
     private var userAnswer: String = ""
-    var question: Question
+    private var question: Question
 
     init {
         question = repository.getQuestion()
+    }
+
+    fun getAnswers(): List<String> {
+       return listOf(question.answers[0],
+        question.answers[1],
+        question.answers[2],
+        question.correctAnswer).shuffled()
     }
 
     fun setUserAnswer(answer: String) {
@@ -21,6 +28,13 @@ class GameFragmentViewModel : ViewModel() {
         return repository.getUserAnswer()
     }
 
+    fun getQuestionText(): String {
+        return question.questionText
+    }
+
+    fun getCorrectAnswer(): String {
+        return question.correctAnswer
+    }
 
 
 }
