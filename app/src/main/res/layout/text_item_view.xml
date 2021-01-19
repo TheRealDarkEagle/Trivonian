@@ -17,14 +17,10 @@
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/resultUserAnswer"
+        android:id="@+id/resultViewCorrectAnswerLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="@string/result_question_userAnswer"
-        android:textSize="20sp" />
+        android:text="@string/result_correctAnswer_label" />
 
     <TextView
         android:id="@+id/resultQuestionAsnwer"
@@ -34,4 +30,22 @@
         android:paddingEnd="16dp"
         android:text="@string/result_question_correctAnswer"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/resultViewUserAnswerLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/result_userAnswer_label" />
+
+    <TextView
+        android:id="@+id/resultUserAnswer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/result_question_userAnswer"
+        android:textSize="20sp" />
+
 </LinearLayout>

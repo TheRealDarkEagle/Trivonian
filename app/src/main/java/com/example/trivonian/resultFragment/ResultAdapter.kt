@@ -1,6 +1,7 @@
 package com.example.trivonian.resultFragment
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,13 @@ class ResultAdapter(
         holder.itemView.findViewById<TextView>(R.id.resultQuestion).text = questionText
         holder.itemView.findViewById<TextView>(R.id.resultUserAnswer).text = userAnswer
         holder.itemView.findViewById<TextView>(R.id.resultQuestionAsnwer).text = correctAnswer
+
+        if( userAnswer == correctAnswer) {
+            holder.itemView.findViewById<TextView>(R.id.resultUserAnswer).setBackgroundColor(Color.GREEN)
+        } else {
+            holder.itemView.findViewById<TextView>(R.id.resultUserAnswer).setBackgroundColor(Color.RED)
+        }
+
     }
 
     override fun getItemCount(): Int {
