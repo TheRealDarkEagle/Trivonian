@@ -1,4 +1,4 @@
-package com.example.trivonian
+package com.example.trivonian.resultFragment
 
 import android.content.Context
 import android.view.View

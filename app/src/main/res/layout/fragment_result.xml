@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResultFragment">
+    tools:context=".resultFragment.ResultFragment">
 
     <TextView
         android:id="@+id/resultFragment_Headline"

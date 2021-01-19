@@ -1,4 +1,4 @@
-package com.example.trivonian
+package com.example.trivonian.gameFragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,19 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.example.trivonian.dataclasses.Question
-import org.w3c.dom.Text
+import com.example.trivonian.R
 
 class GameFragment : Fragment() {
-
-
-
-    //Todo("erhalt der frage mittels übergebenem objekt implementieren -> vllt komplette liste und fragenIndex?")
-    val question = Question("In the Kingdom Heart series who provides the english voice for Master Eraqus?",
-        listOf("Mark Hamill", "Jason Dohring", "Jesse McCartney", "Haley Joel Osment"),"Mark Hamill")
-
-    var userAnswer: String = ""
+    private lateinit var viewModel: GameFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,19 +23,22 @@ class GameFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
+
         super.onViewCreated(view, savedInstanceState)
         val questionTextView = view.findViewById<TextView>(R.id.gameFragment_question)
-        questionTextView.text = question.questionText
+        questionTextView.text = viewModel.getQuestion().questionText
 
         val buttonOne = view.findViewById<RadioButton>(R.id.radioButton1)
-        buttonOne.text = question.answers[0]
+        buttonOne.text = viewModel.getQuestion().answers[0]
         val buttonTwo = view.findViewById<RadioButton>(R.id.radioButton2)
-        buttonTwo.text = question.answers[1]
+        buttonTwo.text = viewModel.getQuestion().answers[1]
         val buttonThree = view.findViewById<RadioButton>(R.id.radioButton3)
-        buttonThree.text = question.answers[2]
+        buttonThree.text = viewModel.getQuestion().answers[2]
         val buttonFour = view.findViewById<RadioButton>(R.id.radioButton4)
-        buttonFour.text = question.answers[3]
+        buttonFour.text = viewModel.getQuestion().answers[3]
 
         val radioButtons = listOf<RadioButton>(buttonOne, buttonTwo, buttonThree, buttonFour)
 
@@ -50,15 +46,18 @@ class GameFragment : Fragment() {
         view.findViewById<Button>(R.id.gameFragment_nextButton).setOnClickListener {
             for (radioButton in radioButtons) {
                 if (radioButton.isChecked) {
-                    userAnswer = radioButton.text.toString()
+                    viewModel.setAnswer(radioButton.text.toString())
                     break
                 }
             }
-
-            view.findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+            directToResultFragment()
         }
 
 
+    }
 
+    private fun directToResultFragment() {
+        val action = GameFragmentDirections.actionGameFragmentToResultFragment()
+        view?.findNavController()?.navigate(action)
     }
 }
