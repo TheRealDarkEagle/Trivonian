@@ -34,39 +34,9 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-/*
-        val questionTextView = binding.gameFragmentQuestion
-        questionTextView.text = viewModel.getQuestionText()
-
-        val answers = viewModel.getAnswers()
-
-        val buttonOne = binding.radioButton1
-        buttonOne.text = answers[0]
-        val buttonTwo = binding.radioButton2
-        buttonTwo.text = answers[1]
-        val buttonThree = binding.radioButton3
-        buttonThree.text = answers[2]
-        val buttonFour = binding.radioButton4
-        buttonFour.text = answers[3]
-
-        val radioButtons = listOf(buttonOne, buttonTwo, buttonThree, buttonFour)
-
-
-
- */
         binding.gameFragmentNextButton.setOnClickListener {
-            /*
-            for (radioButton in radioButtons) {
-
-                if (radioButton.isChecked) {
-                    viewModel.setUserAnswer(radioButton.text.toString())
-                    break
-                }
-            }
-              */
             directToResultFragment()
         }
-
     }
 
     private fun directToResultFragment() {
