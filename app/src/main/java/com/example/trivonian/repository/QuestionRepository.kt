@@ -2,8 +2,7 @@ package com.example.trivonian.repository
 
 import android.util.Log
 import com.example.trivonian.dataclasses.Question
-import dagger.BindsOptionalOf
-import kotlin.math.log
+
 
 private fun getQuestions(): List<Question> {
     return listOf(Question(
