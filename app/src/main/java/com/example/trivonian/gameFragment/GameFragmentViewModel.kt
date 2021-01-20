@@ -6,12 +6,13 @@ import com.example.trivonian.repository.QuestionRepository
 
 class GameFragmentViewModel : ViewModel() {
 
-    private val repository = QuestionRepository()
+
+    private val repository = QuestionRepository
     private var question: Question
-    lateinit var possibleAnswers: List<String>
 
     var questionText: String = ""
-    var userAnswer = ""
+    lateinit var possibleAnswers: List<String>
+
 
     init {
         question = repository.getQuestion()
@@ -30,5 +31,8 @@ class GameFragmentViewModel : ViewModel() {
 
     }
 
+    fun questionAnswered(answer: String) {
+        repository.saveAnswer(answer)
+    }
 
 }

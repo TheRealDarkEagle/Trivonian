@@ -38,9 +38,13 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameFragmentNextButton.setOnClickListener {
-            registerAnswer()
-            directToResultFragment()
+            questionAnswered()
         }
+    }
+
+    private fun questionAnswered() {
+        registerAnswer()
+        directToResultFragment()
     }
 
     private fun registerAnswer() {
@@ -48,7 +52,7 @@ class GameFragment : Fragment() {
         for (view in radioGroup.children) {
             val button = view as RadioButton
             if (button.isChecked) {
-                viewModel.userAnswer = button.text.toString()
+                viewModel.questionAnswered(button.text.toString())
             }
         }
     }
