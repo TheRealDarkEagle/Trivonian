@@ -1,6 +1,7 @@
 package com.example.trivonian.gameFragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.view.children
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -35,20 +38,26 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameFragmentNextButton.setOnClickListener {
+            registerAnswer()
             directToResultFragment()
         }
     }
 
+    private fun registerAnswer() {
+        val radioGroup = binding.radioGroup
+        for (view in radioGroup.children) {
+            val button = view as RadioButton
+            if (button.isChecked) {
+                viewModel.userAnswer = button.text.toString()
+            }
+        }
+    }
+
     private fun directToResultFragment() {
-        /*
-        val action = GameFragmentDirections.actionGameFragmentToResultFragment(
-            viewModel.getQuestionText(),
-            viewModel.getUserAnswer(),
-            viewModel.getCorrectAnswer()
-        )
+        val action = GameFragmentDirections.actionGameFragmentToResultFragment()
         findNavController(this).navigate(action)
 
-         */
+
     }
 
     private fun updateAnswers() {
@@ -58,9 +67,9 @@ class GameFragment : Fragment() {
             radioButton.text = answer
             radioButton.id = View.generateViewId()
             radioButton.textSize = 25f
+            
             radioGroup.addView(radioButton)
         }
-
     }
     private fun updateQuestion() {
         binding.gameFragmentQuestion.text = viewModel.questionText

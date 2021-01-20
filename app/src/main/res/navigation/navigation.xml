@@ -27,15 +27,5 @@
         android:id="@+id/resultFragment"
         android:name="com.example.trivonian.resultFragment.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result" >
-        <argument
-            android:name="question"
-            app:argType="string" />
-        <argument
-            android:name="userAnswer"
-            app:argType="string" />
-        <argument
-            android:name="correctAnswer"
-            app:argType="string" />
-    </fragment>
+        tools:layout="@layout/fragment_result" />
 </navigation>

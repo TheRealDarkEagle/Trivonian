@@ -8,8 +8,10 @@ class GameFragmentViewModel : ViewModel() {
 
     private val repository = QuestionRepository()
     private var question: Question
-    var questionText: String = ""
     lateinit var possibleAnswers: List<String>
+
+    var questionText: String = ""
+    var userAnswer = ""
 
     init {
         question = repository.getQuestion()
@@ -25,6 +27,7 @@ class GameFragmentViewModel : ViewModel() {
         answerList.add(question.correctAnswer)
         answerList.shuffle()
         possibleAnswers  = answerList
+
     }
 
 
