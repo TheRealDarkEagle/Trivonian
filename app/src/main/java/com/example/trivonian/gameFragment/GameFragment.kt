@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentGameBinding
 
@@ -29,9 +30,10 @@ class GameFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
 
-        super.onViewCreated(view, savedInstanceState)
         val questionTextView = binding.gameFragmentQuestion
         questionTextView.text = viewModel.getQuestionText()
 
@@ -58,8 +60,6 @@ class GameFragment : Fragment() {
             }
             directToResultFragment()
         }
-
-
     }
 
     private fun directToResultFragment() {
@@ -68,6 +68,6 @@ class GameFragment : Fragment() {
             viewModel.getUserAnswer(),
             viewModel.getCorrectAnswer()
         )
-        view?.findNavController()?.navigate(action)
+        findNavController(this).navigate(action)
     }
 }
