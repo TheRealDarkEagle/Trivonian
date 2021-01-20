@@ -32,11 +32,13 @@ object QuestionRepository {
     }
 
     fun saveAnswer(answer: String) {
+        log("saved ${answer} to userAnswers")
         userAnswers.add(answer)
     }
 
     fun getUserAnswer(): List<String> {
-        return userAnswers
+        log("userAnswers -> ${userAnswers}")
+        return userAnswers.toList()
     }
 
     fun resetGame() {
@@ -55,4 +57,10 @@ object QuestionRepository {
         val logTag = "QuestionRepository"
         Log.i(logTag,msg)
     }
+
+    fun getAllQuestions(): List<Question> {
+        log("Returning questions -> ${questions}")
+        return questions
+    }
+
 }

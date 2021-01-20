@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="question"
+            type="com.example.trivonian.dataclasses.Question" />
+        <variable
+            name="answer"
+            type="String" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +23,7 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/result_question_headline"
+            android:text="@{question.questionText}"
             android:textSize="25sp" />
 
         <TextView
@@ -30,7 +38,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/result_question_correctAnswer"
+            android:text="@{question.correctAnswer}"
             android:textSize="20sp" />
 
         <TextView
@@ -47,7 +55,7 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/result_question_userAnswer"
+            android:text="@{answer}"
             android:textSize="20sp" />
 
     </LinearLayout>

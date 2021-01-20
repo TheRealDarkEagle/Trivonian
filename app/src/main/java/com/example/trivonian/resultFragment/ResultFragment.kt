@@ -31,7 +31,7 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.resultRecyclerView)
-        /*recyclerView.adapter = ResultAdapter(args.question, args.userAnswer, args.correctAnswer) */
+        recyclerView.adapter = ResultAdapter(viewModel.questionList, viewModel.answerList)
         //Fertigstellung der RecyclerView https://www.youtube.com/watch?v=18VcnYN5_LM
     }
 
