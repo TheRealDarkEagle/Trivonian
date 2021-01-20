@@ -29,8 +29,7 @@ class GameFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
-        updateQuestion()
-        updateAnswers()
+        setupQuestion()
         return binding.root
     }
 
@@ -42,9 +41,19 @@ class GameFragment : Fragment() {
         }
     }
 
+    private fun setupQuestion() {
+        updateQuestion()
+        updateAnswers()
+    }
+
     private fun questionAnswered() {
         registerAnswer()
-        directToResultFragment()
+        if(viewModel.hasNewQuestion()) {
+            viewModel.getNewQuestion()
+            setupQuestion()
+        } else {
+            directToResultFragment()
+        }
     }
 
     private fun registerAnswer() {
@@ -66,6 +75,7 @@ class GameFragment : Fragment() {
 
     private fun updateAnswers() {
         val radioGroup = binding.radioGroup
+        radioGroup.removeAllViews()
         for (answer in viewModel.possibleAnswers) {
             val radioButton = RadioButton(this.requireContext())
             radioButton.text = answer
@@ -75,6 +85,7 @@ class GameFragment : Fragment() {
             radioGroup.addView(radioButton)
         }
     }
+
     private fun updateQuestion() {
         binding.gameFragmentQuestion.text = viewModel.questionText
     }
