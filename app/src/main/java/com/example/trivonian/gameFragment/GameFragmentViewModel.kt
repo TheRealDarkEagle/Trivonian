@@ -8,7 +8,7 @@ class GameFragmentViewModel : ViewModel() {
 
 
     private val repository = QuestionRepository
-    private lateinit var question: Question
+    lateinit var question: Question
 
     var questionText: String = ""
     lateinit var possibleAnswers: List<String>

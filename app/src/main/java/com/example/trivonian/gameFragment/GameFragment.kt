@@ -74,6 +74,7 @@ class GameFragment : Fragment() {
     }
 
     private fun updateAnswers() {
+
         val radioGroup = binding.radioGroup
         radioGroup.removeAllViews()
         for (answer in viewModel.possibleAnswers) {
@@ -87,6 +88,6 @@ class GameFragment : Fragment() {
     }
 
     private fun updateQuestion() {
-        binding.gameFragmentQuestion.text = viewModel.questionText
+        binding.question = viewModel.question
     }
 }
