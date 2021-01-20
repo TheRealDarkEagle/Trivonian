@@ -25,15 +25,16 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
+        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
+        updateQuestion()
+        updateAnswers()
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
-
+/*
         val questionTextView = binding.gameFragmentQuestion
         questionTextView.text = viewModel.getQuestionText()
 
@@ -51,23 +52,47 @@ class GameFragment : Fragment() {
         val radioButtons = listOf(buttonOne, buttonTwo, buttonThree, buttonFour)
 
 
+
+ */
         binding.gameFragmentNextButton.setOnClickListener {
+            /*
             for (radioButton in radioButtons) {
+
                 if (radioButton.isChecked) {
                     viewModel.setUserAnswer(radioButton.text.toString())
                     break
                 }
             }
+              */
             directToResultFragment()
         }
+
     }
 
     private fun directToResultFragment() {
+        /*
         val action = GameFragmentDirections.actionGameFragmentToResultFragment(
             viewModel.getQuestionText(),
             viewModel.getUserAnswer(),
             viewModel.getCorrectAnswer()
         )
         findNavController(this).navigate(action)
+
+         */
+    }
+
+    private fun updateAnswers() {
+        val radioGroup = binding.radioGroup
+        for (answer in viewModel.possibleAnswers) {
+            val radioButton = RadioButton(this.requireContext())
+            radioButton.text = answer
+            radioButton.id = View.generateViewId()
+            radioButton.textSize = 25f
+            radioGroup.addView(radioButton)
+        }
+
+    }
+    private fun updateQuestion() {
+        binding.gameFragmentQuestion.text = viewModel.questionText
     }
 }

@@ -7,36 +7,25 @@ import com.example.trivonian.repository.QuestionRepository
 class GameFragmentViewModel : ViewModel() {
 
     private val repository = QuestionRepository()
-    private var userAnswer: String = ""
     private var question: Question
+    var questionText: String = ""
+    lateinit var possibleAnswers: List<String>
 
     init {
         question = repository.getQuestion()
+        questionText = question.questionText
+        populatePossibleAnswers()
     }
 
-    fun getAnswers(): List<String> {
-       return listOf(question.answers[0],
-        question.answers[1],
-        question.answers[2],
-        question.correctAnswer).shuffled()
+    private fun populatePossibleAnswers() {
+        val answerList = mutableListOf<String>()
+        for (answer in question.answers) {
+            answerList.add(answer)
+        }
+        answerList.add(question.correctAnswer)
+        answerList.shuffle()
+        possibleAnswers  = answerList
     }
-
-    fun setUserAnswer(answer: String) {
-        repository.saveAnswer(answer)
-    }
-    fun getUserAnswer(): String {
-        return repository.getUserAnswer()
-    }
-
-    fun getQuestionText(): String {
-        return question.questionText
-    }
-
-    fun getCorrectAnswer(): String {
-        return question.correctAnswer
-    }
-
-
 
 
 }

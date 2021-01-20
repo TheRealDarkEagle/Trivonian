@@ -40,6 +40,7 @@
             app:layout_constraintTop_toBottomOf="@+id/gameFragment_header" />
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -48,7 +49,7 @@
             app:layout_constraintBottom_toTopOf="@+id/gameFragment_nextButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
+<!--
             <RadioButton
                 android:id="@+id/radioButton1"
                 android:layout_width="match_parent"
@@ -72,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="36sp" />
+                -->
         </RadioGroup>
 
         <Button
