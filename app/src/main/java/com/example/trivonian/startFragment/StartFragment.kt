@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.example.trivonian.R
+import com.example.trivonian.repository.QuestionRepository
 
 class StartFragment : Fragment() {
 
@@ -26,5 +27,7 @@ class StartFragment : Fragment() {
         playGameButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_startFragment_to_gameFragment)
         }
+
+        QuestionRepository().getQuestion()
     }
 }

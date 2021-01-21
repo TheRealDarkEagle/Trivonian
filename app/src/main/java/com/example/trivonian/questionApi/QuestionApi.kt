@@ -6,9 +6,6 @@ import com.example.trivonian.questionApi.parser.DataParser
 import com.example.trivonian.questionApi.requester.DataRequester
 import com.example.trivonian.questionApi.parser.QuestionParser
 import com.example.trivonian.questionApi.requester.QuestionRequester
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.ResponseBody
 
 class QuestionApi : Api {
 
@@ -25,26 +22,10 @@ class QuestionApi : Api {
         get() = QuestionRequester()
 
     override fun requestQuestions(): List<Question> {
-        questionRequester.requestQuestions()
-        TODO("Not yet implemented")
+        questionParser.parse(questionRequester.requestQuestions())
+        return listOf(Question("a", "a", listOf("a")))
     }
 
-    private fun test() {
 
-        val client = OkHttpClient()
-
-        val request = Request.Builder()
-            .url("http://publicobject.com/helloworld.txt")
-            .build()
-
-        val response = client.newCall(request).execute()
-        var responseBody: ResponseBody
-
-        if (response.isSuccessful && response.body != null) {
-
-        }
-        val reader = response.body?.charStream()
-        //val test = //Gson().fromJson(response.body()?.charStream())
-    }
 
 }

@@ -10,10 +10,11 @@ class QuestionRepository {
     private val questionApi: Api = QuestionApi()
 
     fun getQuestion(): Question {
+        questionApi.requestQuestions()
         return Question(
             "In the Kingdom Heart series who provides the english voice for Master Eraqus?",
-            listOf("Jason Dohring", "Jesse McCartney", "Haley Joel Osment"),
-            "Mark Hamill"
+            "Mark Hamill",
+            listOf("Jason Dohring", "Jesse McCartney", "Haley Joel Osment")
         )
     }
 
