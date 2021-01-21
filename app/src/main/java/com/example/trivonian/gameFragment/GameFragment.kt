@@ -52,7 +52,7 @@ class GameFragment : Fragment() {
                     break
                 }
             }
-            
+
             directToResultFragment()
         }
 

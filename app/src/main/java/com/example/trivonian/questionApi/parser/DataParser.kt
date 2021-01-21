@@ -8,7 +8,7 @@ Benötigt dazu noch einen HTMLCharacterCleaner
  */
 interface DataParser {
 
-    fun parse(charStream: String): List<Question>
+    fun parse(text: String): List<Question>
 
 
 }
