@@ -11,10 +11,7 @@ class QuestionParser: DataParser {
     private val textCleaner: DataCleaner = HtmlCharacterCorrector()
 
     override fun parse(text: String): List<Question> {
-        val questionData = Gson().fromJson(text, QuestionsData::class.java)
-        return questionData.questions.map { it }
-
-        //TODO("Not yet implemented")
+        return Gson().fromJson(text, QuestionsData::class.java).questions.map { it }
     }
 
     /*

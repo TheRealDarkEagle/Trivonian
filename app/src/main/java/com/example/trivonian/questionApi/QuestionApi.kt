@@ -22,8 +22,8 @@ class QuestionApi : Api {
         get() = QuestionRequester()
 
     override fun requestQuestions(): List<Question> {
-        questionParser.parse(questionRequester.requestQuestions())
-        return listOf(Question("a", "a", listOf("a")))
+        return  questionParser.parse(questionRequester.requestQuestions())
+        //return listOf(Question("a", "a", listOf("a")))
     }
 
 

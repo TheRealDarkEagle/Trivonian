@@ -28,6 +28,5 @@ class StartFragment : Fragment() {
             it.findNavController().navigate(R.id.action_startFragment_to_gameFragment)
         }
 
-        QuestionRepository().getQuestion()
     }
 }
