@@ -28,10 +28,11 @@ class GameFragmentViewModel : ViewModel() {
 
     private fun populatePossibleAnswers() {
         val answerList = mutableListOf<String>()
-        for (answer in question.answers) {
-            answerList.add(answer)
-        }
         answerList.add(question.correctAnswer)
+        question.incorrectAnswer.map {
+            answerList.add(it)
+        }
+
         answerList.shuffle()
         possibleAnswers  = answerList
 
