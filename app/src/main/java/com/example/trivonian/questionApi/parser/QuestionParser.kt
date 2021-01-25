@@ -1,5 +1,6 @@
 package com.example.trivonian.questionApi.parser
 
+import android.util.Log
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.dataclasses.QuestionsData
 import com.example.trivonian.questionApi.datacleaner.DataCleaner
@@ -11,15 +12,9 @@ class QuestionParser: DataParser {
     private val textCleaner: DataCleaner = HtmlCharacterCorrector()
 
     override fun parse(text: String): List<Question> {
-        return Gson().fromJson(text, QuestionsData::class.java).questions.map { it }
+        val cleanedText = textCleaner.clean(text)
+        Log.i("QuestionParser", cleanedText)
+        return Gson().fromJson(cleanedText, QuestionsData::class.java).questions.map { it }
     }
-
-    /*
-    Question(
-            "In the Kingdom Heart series who provides the english voice for Master Eraqus?",
-            listOf("Jason Dohring", "Jesse McCartney", "Haley Joel Osment"),
-            "Mark Hamill"
-        )
-     */
 
 }
