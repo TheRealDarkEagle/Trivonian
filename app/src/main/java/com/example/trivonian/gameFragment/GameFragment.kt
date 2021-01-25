@@ -1,6 +1,7 @@
 package com.example.trivonian.gameFragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,59 +9,85 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.view.children
+import androidx.core.view.get
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.trivonian.R
+import com.example.trivonian.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
+
     private lateinit var viewModel: GameFragmentViewModel
+    private lateinit var binding: FragmentGameBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
+        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
+        setupQuestion()
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
-
         super.onViewCreated(view, savedInstanceState)
-        val questionTextView = view.findViewById<TextView>(R.id.gameFragment_question)
-        questionTextView.text = viewModel.question.questionText
+        binding.gameFragmentNextButton.setOnClickListener {
+            questionAnswered()
+        }
+    }
 
-        println(viewModel.answers)
+    private fun setupQuestion() {
+        updateQuestion()
+        updateAnswers()
+    }
 
-        val buttonOne = view.findViewById<RadioButton>(R.id.radioButton1)
-        buttonOne.text = viewModel.answers[0]
-        val buttonTwo = view.findViewById<RadioButton>(R.id.radioButton2)
-        buttonTwo.text = viewModel.answers[1]
-        val buttonThree = view.findViewById<RadioButton>(R.id.radioButton3)
-        buttonThree.text = viewModel.answers[2]
-        val buttonFour = view.findViewById<RadioButton>(R.id.radioButton4)
-        buttonFour.text = viewModel.answers[3]
-
-        val radioButtons = listOf<RadioButton>(buttonOne, buttonTwo, buttonThree, buttonFour)
-
-        view.findViewById<Button>(R.id.gameFragment_nextButton).setOnClickListener {
-
-            for (radioButton in radioButtons) {
-                if (radioButton.isChecked) {
-                    viewModel.setUserAnswer(radioButton.text.toString())
-                    break
-                }
-            }
-
+    private fun questionAnswered() {
+        registerAnswer()
+        if(viewModel.hasNewQuestion()) {
+            viewModel.getNewQuestion()
+            setupQuestion()
+        } else {
             directToResultFragment()
         }
+    }
+
+    private fun registerAnswer() {
+        val radioGroup = binding.radioGroup
+        for (view in radioGroup.children) {
+            val button = view as RadioButton
+            if (button.isChecked) {
+                viewModel.questionAnswered(button.text.toString())
+            }
+        }
+    }
+
+    private fun directToResultFragment() {
+        val action = GameFragmentDirections.actionGameFragmentToResultFragment()
+        findNavController(this).navigate(action)
 
 
     }
 
-    private fun directToResultFragment() {
-        val action = GameFragmentDirections.actionGameFragmentToResultFragment(viewModel.question.questionText, viewModel.getUserAnswer(), viewModel.question.correctAnswer)
-        view?.findNavController()?.navigate(action)
+    private fun updateAnswers() {
+
+        val radioGroup = binding.radioGroup
+        radioGroup.removeAllViews()
+        for (answer in viewModel.possibleAnswers) {
+            val radioButton = RadioButton(this.requireContext())
+            radioButton.text = answer
+            radioButton.id = View.generateViewId()
+            radioButton.textSize = 25f
+            
+            radioGroup.addView(radioButton)
+        }
+    }
+
+    private fun updateQuestion() {
+        binding.question = viewModel.question
     }
 }

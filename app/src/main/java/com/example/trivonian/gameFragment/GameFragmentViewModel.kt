@@ -6,27 +6,51 @@ import com.example.trivonian.repository.QuestionRepository
 
 class GameFragmentViewModel : ViewModel() {
 
-    private val repository = QuestionRepository()
-    private var userAnswer: String = ""
-    var question: Question
-    var answers: List<String>
+
+    private val repository = QuestionRepository
+    lateinit var question: Question
+
+    var questionText: String = ""
+    lateinit var possibleAnswers: List<String>
+
 
     init {
-        question = repository.getQuestion()
-        val allAnswers = mutableListOf(question.correctAnswer)
-        question.incorrectAnswer.map { allAnswers.add(it) }
-        val answerList = allAnswers.toList()
-        answers = answerList
+        repository.resetGame()
+        setup()
     }
 
-    fun setUserAnswer(answer: String) {
+    private fun setup() {
+        question = repository.getQuestion()
+        questionText = question.questionText
+        populatePossibleAnswers()
+
+    }
+
+    private fun populatePossibleAnswers() {
+        val answerList = mutableListOf<String>()
+        for (answer in question.answers) {
+            answerList.add(answer)
+        }
+        answerList.add(question.correctAnswer)
+        answerList.shuffle()
+        possibleAnswers  = answerList
+
+    }
+
+    fun questionAnswered(answer: String) {
         repository.saveAnswer(answer)
     }
-    fun getUserAnswer(): String {
-        return repository.getUserAnswer()
+
+    fun hasNewQuestion(): Boolean {
+        return checkForNewQuestion()
     }
 
+    fun getNewQuestion() {
+        setup()
+    }
 
-
+    private fun checkForNewQuestion(): Boolean {
+        return repository.isAnotherQuestion()
+    }
 
 }
