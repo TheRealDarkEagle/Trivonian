@@ -1,19 +1,14 @@
 package com.example.trivonian.gameFragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.core.view.children
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentGameBinding
@@ -48,7 +43,7 @@ class GameFragment : Fragment() {
 
     private fun questionAnswered() {
         registerAnswer()
-        if(viewModel.hasNewQuestion()) {
+        if (viewModel.hasNewQuestion()) {
             viewModel.getNewQuestion()
             setupQuestion()
         } else {
@@ -82,7 +77,7 @@ class GameFragment : Fragment() {
             radioButton.text = answer
             radioButton.id = View.generateViewId()
             radioButton.textSize = 25f
-            
+
             radioGroup.addView(radioButton)
         }
     }

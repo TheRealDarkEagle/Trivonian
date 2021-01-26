@@ -3,8 +3,9 @@ package com.example.trivonian.repository
 import android.util.Log
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.questionApi.QuestionApi
+import com.example.trivonian.util.logger.Logable
 
-object QuestionRepository {
+object QuestionRepository: Logable {
 
     private var userAnswers = mutableListOf<String>()
     private val questions: List<Question>

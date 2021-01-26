@@ -2,7 +2,6 @@ package com.example.trivonian.questionApi.requester
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.ResponseBody
 
 class QuestionRequester : DataRequester {
 

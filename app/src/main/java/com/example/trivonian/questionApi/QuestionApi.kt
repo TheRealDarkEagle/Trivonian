@@ -3,8 +3,8 @@ package com.example.trivonian.questionApi
 
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.questionApi.parser.DataParser
-import com.example.trivonian.questionApi.requester.DataRequester
 import com.example.trivonian.questionApi.parser.QuestionParser
+import com.example.trivonian.questionApi.requester.DataRequester
 import com.example.trivonian.questionApi.requester.QuestionRequester
 
 class QuestionApi : Api {
