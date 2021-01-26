@@ -8,6 +8,6 @@ Aufgabe ist die Delegation der einzelnen Schritte zur vollbringung vom Request z
  */
 interface Api: Logable {
 
-    fun requestQuestions(): List<Question>
+    suspend fun requestQuestions(): List<Question>
 
 }

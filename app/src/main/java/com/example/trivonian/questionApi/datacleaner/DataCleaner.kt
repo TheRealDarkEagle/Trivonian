@@ -4,5 +4,5 @@ import com.example.trivonian.util.logger.Logable
 
 interface DataCleaner: Logable {
 
-    fun clean(text: String): String
+    suspend fun clean(text: String): String
 }

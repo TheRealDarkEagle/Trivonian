@@ -1,5 +1,7 @@
 package com.example.trivonian.questionApi.requester
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
@@ -19,7 +21,8 @@ class QuestionRequester : DataRequester {
      * Requests the Question from the api
      *
      */
-    override fun requestQuestions(): String {
+    override suspend fun requestQuestions(): String {
+        delay(500L)
         return getMockedQuestion()
     }
 

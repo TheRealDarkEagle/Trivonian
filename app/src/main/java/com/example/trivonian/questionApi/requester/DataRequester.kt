@@ -8,6 +8,6 @@ import com.example.trivonian.util.logger.Logable
 
 interface DataRequester: Logable {
 
-    fun requestQuestions(): String
+    suspend fun requestQuestions(): String
 
 }

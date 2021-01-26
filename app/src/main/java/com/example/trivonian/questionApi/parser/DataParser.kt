@@ -9,7 +9,7 @@ Benötigt dazu noch einen HTMLCharacterCleaner
  */
 interface DataParser: Logable {
 
-    fun parse(text: String): List<Question>
+    suspend fun parse(text: String): List<Question>
 
 
 }
