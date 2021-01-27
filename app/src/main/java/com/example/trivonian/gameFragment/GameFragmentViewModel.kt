@@ -4,63 +4,81 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.repository.QuestionRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.example.trivonian.util.logger.Logable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 
-class GameFragmentViewModel : ViewModel() {
+class GameFragmentViewModel : ViewModel(), Logable {
 
 
     private val repository = QuestionRepository
-    private val _question = MutableStateFlow<Question?>(null) //innerhalb des vm wird mit dem privaten objekt gearbeitet!
+    private val _question = MutableStateFlow<Question>(
+        Question(
+            "",
+            "",
+            listOf()
+        )
+    ) //innerhalb des vm wird mit dem privaten objekt gearbeitet!
     val question: StateFlow<Question?> = _question
 
-    var questionText: String = ""
-    lateinit var possibleAnswers: List<String>
+    var possibleAnswers = listOf<String>()
 
 
     init {
-        repository.resetGame()
         setup()
     }
 
     private fun setup() {
         viewModelScope.launch {
-            question.value = repository.getQuestion()
-              //  question =
-           // questionText = question.value.questionText
-            populatePossibleAnswers()
+            _question.value = repository.getQuestion()
+            populatePossibleAnswers(
+                _question.value.incorrectAnswers,
+                _question.value.correctAnswer
+            )
+            logInformation("populated new Question!")
         }
-        _
-
     }
 
-    private fun populatePossibleAnswers() {
+    private fun populatePossibleAnswers(incorrectAnswers: List<String>, correctAnswer: String) {
         val answerList = mutableListOf<String>()
-        answerList.add(question.correctAnswer)
-        question.incorrectAnswer.map {
-            answerList.add(it)
-        }
-
+        answerList.addAll(incorrectAnswers)
+        answerList.add(correctAnswer)
         answerList.shuffle()
-        possibleAnswers  = answerList
-
+        possibleAnswers = answerList
     }
 
     fun questionAnswered(answer: String) {
-        repository.saveAnswer(answer)
+        viewModelScope.launch {
+            repository.saveAnswer(answer)
+        }
     }
 
-    fun hasNewQuestion(): Boolean {
-        return checkForNewQuestion()
+    /*
+    suspend fun hasNewQuestion(): Boolean   {
+        viewModelScope.launch {
+
+        }
     }
+
+     */
 
     fun getNewQuestion() {
         setup()
+        /*
+        viewModelScope.launch {
+            _question.value = repository.getQuestion()
+        }
+
+         */
     }
 
-    private fun checkForNewQuestion(): Boolean {
-        return repository.isAnotherQuestion()
+    private suspend fun checkForNewQuestion(): Flow<Boolean> = flow {
+        val hasNewQuestion = viewModelScope.async {
+            repository.hasAnotherQuestion()
+        }
     }
-
 }
+

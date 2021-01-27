@@ -9,11 +9,21 @@ import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentGameBinding
+import com.example.trivonian.dataclasses.Question
+import com.example.trivonian.util.logger.Logable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class GameFragment : Fragment() {
+class GameFragment : Fragment(), Logable {
 
     private lateinit var viewModel: GameFragmentViewModel
     private lateinit var binding: FragmentGameBinding
@@ -32,24 +42,48 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameFragmentNextButton.setOnClickListener {
-            questionAnswered()
+            registerAnswer()
+        }
+        lifecycleScope.launchWhenCreated {
+            logInformation("launched lifescycle scope")
+            viewModel.question.collect {
+                logInformation("got a hot question dude")
+                if (it != null) {
+                    binding.question = it
+                    logInformation("send the question to binding")
+                    updateAnswers(createAnswerList(it))
+
+                }
+            }
         }
     }
 
-    private fun setupQuestion() {
-        updateQuestion()
-        updateAnswers()
+    private fun createAnswerList(it: Question): List<String> {
+        val answers = mutableListOf(it.correctAnswer)
+        answers.addAll(it.incorrectAnswers)
+        answers.shuffle()
+        return answers
     }
 
-    private fun questionAnswered() {
-        registerAnswer()
+    private fun setupQuestion() {
+        //updateQuestion()
+       // updateAnswers()
+    }
+
+    //private fun questionAnswered() {
+       // registerAnswer()
+        //setupQuestion()
+        //directToResultFragment()
+/*
         if (viewModel.hasNewQuestion()) {
             viewModel.getNewQuestion()
             setupQuestion()
         } else {
             directToResultFragment()
         }
-    }
+
+ */
+    //}
 
     private fun registerAnswer() {
         val radioGroup = binding.radioGroup
@@ -57,6 +91,7 @@ class GameFragment : Fragment() {
             val button = view as RadioButton
             if (button.isChecked) {
                 viewModel.questionAnswered(button.text.toString())
+                viewModel.getNewQuestion()
             }
         }
     }
@@ -68,11 +103,10 @@ class GameFragment : Fragment() {
 
     }
 
-    private fun updateAnswers() {
-
+    private fun updateAnswers(answers: List<String>) {
         val radioGroup = binding.radioGroup
         radioGroup.removeAllViews()
-        for (answer in viewModel.possibleAnswers) {
+        for (answer in answers) {
             val radioButton = RadioButton(this.requireContext())
             radioButton.text = answer
             radioButton.id = View.generateViewId()
@@ -83,6 +117,7 @@ class GameFragment : Fragment() {
     }
 
     private fun updateQuestion() {
-        binding.question = viewModel.question
+        val question = viewModel.question.value
+        binding.question = question
     }
 }

@@ -1,9 +1,12 @@
 package com.example.trivonian.questionApi.datacleaner
 
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.withContext
+
 class HtmlCharacterCorrector: DataCleaner {
 
-    override fun clean(text: String): String {
-        return replaceEncodingIssus(text)
+    override suspend fun clean(text: String): String = withContext(IO) {
+        replaceEncodingIssus(text)
     }
 
     private fun replaceEncodingIssus(text: String): String {

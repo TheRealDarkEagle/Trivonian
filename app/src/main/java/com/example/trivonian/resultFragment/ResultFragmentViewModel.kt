@@ -11,8 +11,9 @@ class ResultFragmentViewModel : ViewModel() {
     val answerList: List<String>
 
     init {
-        questionList = repository.getAllQuestions()
-        answerList = repository.getUserAnswer()
+
+        questionList = listOf<Question>()//repository.getAllQuestions()
+        answerList = listOf<String>() //repository.getUserAnswer()
     }
 
 

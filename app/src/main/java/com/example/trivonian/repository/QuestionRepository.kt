@@ -3,54 +3,63 @@ package com.example.trivonian.repository
 import android.util.Log
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.questionApi.QuestionApi
-import com.example.trivonian.util.logger.Logable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-object QuestionRepository: Logable {
+object QuestionRepository : Repository {
 
     private var userAnswers = mutableListOf<String>()
-    private val questions: List<Question>
+    private var questions = mutableListOf<Question>()
     private var questionIndex = 0
 
     init {
-        log("QuestionRepository initialized!")
-        questions = QuestionApi().requestQuestions().shuffled()
+        logInformation("questionRepository initialized!")
     }
 
-    fun getQuestion(): Question {
-        log("The Questionindex -> ${questionIndex}")
-        return questions[questionIndex++]
+    override suspend fun getQuestion(): Question = withContext(IO) {
+        logInformation("The Questionindex -> ${questionIndex}")
+        if(questions.isEmpty()) {
+            CoroutineScope(IO).launch {
+                resetGame()
+                questions = QuestionApi().requestQuestions().toMutableList()
+            }.join()
+        }
+        questions[++questionIndex]
     }
 
-    fun saveAnswer(answer: String) {
-        log("saved ${answer} to userAnswers")
-        userAnswers.add(answer)
+    override suspend fun saveAnswer(answer: String) {
+        withContext(IO) {
+            logInformation("saved ${answer} to userAnswers")
+            userAnswers.add(answer)
+        }
     }
 
-    fun getUserAnswer(): List<String> {
-        log("userAnswers -> ${userAnswers}")
-        return userAnswers.toList()
+    override suspend fun getUserAnswer(): List<String> = withContext(IO) {
+        logInformation("userAnswers -> ${userAnswers}")
+        userAnswers.toList()
     }
 
-    fun resetGame() {
-        questionIndex = 0
-        userAnswers = mutableListOf()
-        log("Reset Game!")
+    override suspend fun resetGame() {
+        withContext(IO) {
+            questionIndex = 0
+            userAnswers = mutableListOf()
+            logInformation("Reset Game!")
+        }
     }
 
-    fun isAnotherQuestion(): Boolean {
+    override suspend fun hasAnotherQuestion(): Boolean = withContext(IO) {
         val isNewQuestion = questionIndex < questions.size
-        log("has new Question -> ${isNewQuestion}")
-        return isNewQuestion
+        logInformation("has new Question -> ${isNewQuestion}")
+        isNewQuestion
     }
 
-    private fun log(msg: String) {
-        val logTag = "QuestionRepository"
-        Log.i(logTag,msg)
-    }
 
-    fun getAllQuestions(): List<Question> {
-        log("Returning questions -> ${questions}")
-        return questions
+    override suspend fun getAllQuestions(): List<Question> = withContext(IO) {
+        logInformation("Returning questions -> ${questions}")
+        questions
     }
 
 }
