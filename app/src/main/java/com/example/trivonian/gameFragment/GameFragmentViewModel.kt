@@ -2,82 +2,76 @@ package com.example.trivonian.gameFragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.trivonian.dataclasses.GameState
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.repository.QuestionRepository
 import com.example.trivonian.util.logger.Logable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 
 class GameFragmentViewModel : ViewModel(), Logable {
 
-
-    private val repository = QuestionRepository
-    private val _question = MutableStateFlow<Question>(
-        Question(
-            "",
-            "",
-            listOf()
+    //innerhalb des vm wird mit dem privaten objekt gearbeitet!
+    private val _repository = QuestionRepository
+    private val _gameState = MutableStateFlow(GameState.LOADING)
+    private val _question =
+        MutableStateFlow(
+            Question(
+                "",
+                "",
+                listOf()
+            )
         )
-    ) //innerhalb des vm wird mit dem privaten objekt gearbeitet!
+
+
     val question: StateFlow<Question?> = _question
-
-    var possibleAnswers = listOf<String>()
-
+    val gameState: StateFlow<GameState> = _gameState
 
     init {
         setup()
     }
 
     private fun setup() {
-        viewModelScope.launch {
-            _question.value = repository.getQuestion()
-            populatePossibleAnswers(
-                _question.value.incorrectAnswers,
-                _question.value.correctAnswer
-            )
-            logInformation("populated new Question!")
-        }
-    }
-
-    private fun populatePossibleAnswers(incorrectAnswers: List<String>, correctAnswer: String) {
-        val answerList = mutableListOf<String>()
-        answerList.addAll(incorrectAnswers)
-        answerList.add(correctAnswer)
-        answerList.shuffle()
-        possibleAnswers = answerList
+        getQuestion()
     }
 
     fun questionAnswered(answer: String) {
         viewModelScope.launch {
-            repository.saveAnswer(answer)
+            _repository.saveAnswer(answer)
         }
     }
-
-    /*
-    suspend fun hasNewQuestion(): Boolean   {
-        viewModelScope.launch {
-
-        }
-    }
-
-     */
 
     fun getNewQuestion() {
-        setup()
-        /*
-        viewModelScope.launch {
-            _question.value = repository.getQuestion()
-        }
-
-         */
+        getQuestion()
     }
 
-    private suspend fun checkForNewQuestion(): Flow<Boolean> = flow {
-        val hasNewQuestion = viewModelScope.async {
-            repository.hasAnotherQuestion()
+    private fun getQuestion() {
+        viewModelScope.launch {
+            _question.value = _repository.getQuestion()
+            checkGameState()
+            logInformation("populated new Question!")
+        }
+    }
+
+    private fun checkGameState() {
+        viewModelScope.launch {
+           val hasAnotherQuestion = async {
+               _repository.hasAnotherQuestion()
+           }.await()
+
+            if(hasAnotherQuestion) {
+                setGameState(GameState.RUNNING)
+            } else {
+                setGameState(GameState.FINISH)
+            }
+        }
+    }
+
+    private fun setGameState(state: GameState) {
+        if(_gameState.value != state) {
+            _gameState.value = state
+            logInformation("Gamestate was succesfully set to -> ${state}")
         }
     }
 }

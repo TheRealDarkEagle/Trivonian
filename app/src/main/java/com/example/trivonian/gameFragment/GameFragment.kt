@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentGameBinding
+import com.example.trivonian.dataclasses.GameState
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.util.logger.Logable
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +35,6 @@ class GameFragment : Fragment(), Logable {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
-        setupQuestion()
         return binding.root
     }
 
@@ -43,6 +43,10 @@ class GameFragment : Fragment(), Logable {
         super.onViewCreated(view, savedInstanceState)
         binding.gameFragmentNextButton.setOnClickListener {
             registerAnswer()
+            if(viewModel.gameState.value == GameState.FINISH) {
+                directToResultFragment()
+            }
+
         }
         lifecycleScope.launchWhenCreated {
             logInformation("launched lifescycle scope")
@@ -65,33 +69,18 @@ class GameFragment : Fragment(), Logable {
         return answers
     }
 
-    private fun setupQuestion() {
-        //updateQuestion()
-       // updateAnswers()
-    }
-
-    //private fun questionAnswered() {
-       // registerAnswer()
-        //setupQuestion()
-        //directToResultFragment()
-/*
-        if (viewModel.hasNewQuestion()) {
-            viewModel.getNewQuestion()
-            setupQuestion()
-        } else {
-            directToResultFragment()
-        }
-
- */
-    //}
-
     private fun registerAnswer() {
         val radioGroup = binding.radioGroup
         for (view in radioGroup.children) {
             val button = view as RadioButton
             if (button.isChecked) {
                 viewModel.questionAnswered(button.text.toString())
-                viewModel.getNewQuestion()
+
+                if (viewModel.gameState.value == GameState.FINISH) {
+                    directToResultFragment()
+                } else {
+                    viewModel.getNewQuestion()
+                }
             }
         }
     }
@@ -99,8 +88,6 @@ class GameFragment : Fragment(), Logable {
     private fun directToResultFragment() {
         val action = GameFragmentDirections.actionGameFragmentToResultFragment()
         findNavController(this).navigate(action)
-
-
     }
 
     private fun updateAnswers(answers: List<String>) {
@@ -116,8 +103,4 @@ class GameFragment : Fragment(), Logable {
         }
     }
 
-    private fun updateQuestion() {
-        val question = viewModel.question.value
-        binding.question = question
-    }
 }

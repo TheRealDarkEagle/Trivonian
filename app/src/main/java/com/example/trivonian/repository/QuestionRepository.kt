@@ -1,6 +1,7 @@
 package com.example.trivonian.repository
 
 import android.util.Log
+import com.example.trivonian.dataclasses.GameState
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.questionApi.QuestionApi
 import kotlinx.coroutines.CoroutineScope
@@ -24,10 +25,11 @@ object QuestionRepository : Repository {
         if(questions.isEmpty()) {
             CoroutineScope(IO).launch {
                 resetGame()
-                questions = QuestionApi().requestQuestions().toMutableList()
+                questions = QuestionApi().requestQuestions().shuffled().toMutableList()
+                logInformation("recieved Questions!")
             }.join()
         }
-        questions[++questionIndex]
+        questions[questionIndex++]
     }
 
     override suspend fun saveAnswer(answer: String) {

@@ -6,6 +6,6 @@ interface Logable {
 
     fun logInformation(msg: String) {
         val loggerPrefix = "TRIVIA#"
-        Log.i(loggerPrefix+this.javaClass::class.java.name, msg)
+        Log.i(loggerPrefix+this.javaClass.name, msg)
     }
 }
