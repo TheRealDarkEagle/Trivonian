@@ -16,7 +16,8 @@ class QuestionParser: DataParser {
     override suspend fun parse(text: String): List<Question> = withContext(IO) {
             val cleanedText = textCleaner.clean(text)
             Log.i("QuestionParser", cleanedText)
-            return@withContext Gson().fromJson(cleanedText, QuestionsData::class.java).questions.map { it }
+            val question = Gson().fromJson(cleanedText, QuestionsData::class.java).questions.map { it }.first()
+            return@withContext listOf(question)
     }
 
 }

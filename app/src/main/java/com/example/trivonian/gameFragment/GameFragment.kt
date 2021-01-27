@@ -1,5 +1,6 @@
 package com.example.trivonian.gameFragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,10 +46,6 @@ class GameFragment : Fragment(), Logable {
         super.onViewCreated(view, savedInstanceState)
         binding.gameFragmentNextButton.setOnClickListener {
             registerAnswer()
-            if(viewModel.gameState.value == GameState.FINISH) {
-                directToResultFragment()
-            }
-
         }
         lifecycleScope.launchWhenCreated {
             logInformation("launched lifescycle scope")
@@ -77,7 +74,7 @@ class GameFragment : Fragment(), Logable {
             val button = view as RadioButton
             if (button.isChecked) {
                 viewModel.questionAnswered(button.text.toString())
-
+                logInformation(viewModel.gameState.value.toString())
                 if (viewModel.gameState.value == GameState.FINISH) {
                     directToResultFragment()
                 } else {
