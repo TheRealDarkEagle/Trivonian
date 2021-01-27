@@ -34,16 +34,8 @@ android {
         //noinspection DataBindingWithoutKapt
         dataBinding true
     }
-    
     apply plugin: "androidx.navigation.safeargs.kotlin"
     apply plugin: 'kotlin-kapt'
-}
-sourceSets {
-    main {
-        java {
-            srcDirs += 'build/generated/source/navigation-args'
-        }
-    }
 }
 
 dependencies {
