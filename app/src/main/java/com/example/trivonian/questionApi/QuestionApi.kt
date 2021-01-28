@@ -17,6 +17,8 @@ class QuestionApi : Api {
         get() = QuestionRequester()
 
     override suspend fun requestQuestions(): List<Question> = withContext(IO) {
-        questionParser.parse(questionRequester.requestQuestions())
+        val questionData = questionRequester.requestQuestions()
+        val parse = questionParser.parse(questionData)
+        parse
     }
 }

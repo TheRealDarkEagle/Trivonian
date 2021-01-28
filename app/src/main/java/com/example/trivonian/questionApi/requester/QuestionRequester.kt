@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 
 class QuestionRequester : DataRequester {
 
@@ -27,18 +28,29 @@ class QuestionRequester : DataRequester {
     override suspend fun requestQuestions(): String = withContext(IO) {
         //delay(1000L)
         //getMockedQuestion()
-
-        request()
+        val data = request()
+        if (data != null) {
+            return@withContext data
+        } else {
+            return@withContext getMockedQuestion()
+        }
     }
 
-    private suspend fun request(): String = withContext(IO) {
+    private suspend fun request(): String? = withContext(IO) {
         logInformation("sending request to server!")
         logInformation(Thread.currentThread().toString())
-        val response = async {
-             client.newCall(request).execute()
+        val response: Response = async {
+            logInformation("gonna execute the request")
+            val response = client.newCall(request).execute()
+            logInformation("request executet!")
+            return@async response
         }.await()
-        //logInformation("${response.body}")
-        return@withContext response.body.toString()
+        if (response.isSuccessful) {
+            logInformation("it worked!")
+        } else {
+            logError("damn something went horrible wrong!")
+        }
+        return@withContext response.body?.string()
     }
 
 

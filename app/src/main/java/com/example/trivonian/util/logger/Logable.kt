@@ -8,4 +8,9 @@ interface Logable {
         val loggerPrefix = "TRIVIA#"
         Log.i(loggerPrefix+this.javaClass.name, msg)
     }
+
+    fun logError(error: String) {
+        val loggerPrefix = "TRIVIA#"
+        Log.e(loggerPrefix+this.javaClass.name, error)
+    }
 }
