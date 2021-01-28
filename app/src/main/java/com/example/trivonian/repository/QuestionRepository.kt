@@ -1,11 +1,8 @@
 package com.example.trivonian.repository
 
-import android.util.Log
-import com.example.trivonian.dataclasses.GameState
 import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.questionApi.QuestionApi
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,12 +18,12 @@ object QuestionRepository : Repository {
     }
 
     override suspend fun getQuestion(): Question = withContext(IO) {
-        logInformation("The Questionindex -> ${questionIndex}")
+        logInformation("The QuestionIndex -> questionIndex")
         if(questions.isEmpty()) {
             CoroutineScope(IO).launch {
                 resetGame()
                 questions = QuestionApi().requestQuestions().shuffled().toMutableList()
-                logInformation("recieved Questions!")
+                logInformation("received Questions!")
             }.join()
         }
         questions[questionIndex++]
@@ -34,14 +31,14 @@ object QuestionRepository : Repository {
 
     override suspend fun saveAnswer(answer: String) {
         withContext(IO) {
-            logInformation("saved ${answer} to userAnswers")
+            logInformation("saved $answer to userAnswers")
             userAnswers.add(answer)
         }
     }
 
-    override suspend fun getUserAnswer(): List<String> = withContext(IO) {
-        logInformation("userAnswers -> ${userAnswers}")
-        userAnswers.toList()
+    override fun getUserAnswer(): List<String> {
+        logInformation("userAnswers -> $userAnswers")
+        return userAnswers.toList()
     }
 
     override suspend fun resetGame() {
@@ -54,14 +51,14 @@ object QuestionRepository : Repository {
 
     override suspend fun hasAnotherQuestion(): Boolean = withContext(IO) {
         val isNewQuestion = questionIndex < questions.size
-        logInformation("has new Question -> ${isNewQuestion}")
+        logInformation("has new Question -> $isNewQuestion")
         isNewQuestion
     }
 
 
-    override suspend fun getAllQuestions(): List<Question> = withContext(IO) {
-        logInformation("Returning questions -> ${questions}")
-        questions
+    override fun getAllQuestions(): List<Question> {
+        logInformation("Returning questions -> $questions")
+        return questions
     }
 
 }

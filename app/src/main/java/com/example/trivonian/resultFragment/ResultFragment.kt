@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentResultBinding
@@ -29,9 +30,17 @@ class ResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.resultRecyclerView)
-        recyclerView.adapter = ResultAdapter(viewModel.questionList, viewModel.answerList)
-        //Fertigstellung der RecyclerView https://www.youtube.com/watch?v=18VcnYN5_LM
+        lifecycleScope.launchWhenCreated {
+            recyclerView = binding.resultRecyclerView
+            recyclerView.adapter = viewModel.questionList.value?.let {
+                viewModel.answerList.value?.let { it1 ->
+                    ResultAdapter(
+                        it,
+                        it1
+                    )
+                }
+            }
+        }
     }
 
 }

@@ -7,9 +7,9 @@ import com.example.trivonian.util.logger.Logable
 interface Repository : Logable {
 
     suspend fun getQuestion(): Question
-    suspend fun getUserAnswer(): List<String>
-    suspend fun getAllQuestions(): List<Question>
     suspend fun hasAnotherQuestion(): Boolean
     suspend fun resetGame()
     suspend fun saveAnswer(answer: String)
+    fun getUserAnswer(): List<String>
+    fun getAllQuestions(): List<Question>
 }
