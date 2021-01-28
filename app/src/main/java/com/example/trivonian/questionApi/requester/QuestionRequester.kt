@@ -1,6 +1,7 @@
 package com.example.trivonian.questionApi.requester
 
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -24,8 +25,20 @@ class QuestionRequester : DataRequester {
      *
      */
     override suspend fun requestQuestions(): String = withContext(IO) {
-        delay(500L)
-        getMockedQuestion()
+        //delay(1000L)
+        //getMockedQuestion()
+
+        request()
+    }
+
+    private suspend fun request(): String = withContext(IO) {
+        logInformation("sending request to server!")
+        logInformation(Thread.currentThread().toString())
+        val response = async {
+             client.newCall(request).execute()
+        }.await()
+        //logInformation("${response.body}")
+        return@withContext response.body.toString()
     }
 
 
