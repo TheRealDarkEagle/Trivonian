@@ -25,7 +25,7 @@ class GameFragmentViewModel : ViewModel(), Logable {
         )
 
 
-    val question: StateFlow<Question?> = _question
+    val question: StateFlow<Question> = _question
     val gameState: StateFlow<GameState> = _gameState
 
     init {

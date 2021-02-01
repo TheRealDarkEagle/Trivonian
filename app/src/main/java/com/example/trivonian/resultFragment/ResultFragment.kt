@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentResultBinding
+import com.example.trivonian.util.logger.Logable
 
 
-class ResultFragment : Fragment() {
+class ResultFragment : Fragment(), Logable {
 
     lateinit var recyclerView: RecyclerView
     private val binding by lazy {
@@ -26,21 +28,19 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        recyclerView = binding.resultRecyclerView
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launchWhenCreated {
-            recyclerView = binding.resultRecyclerView
-            recyclerView.adapter = viewModel.questionList.value?.let {
-                viewModel.answerList.value?.let { it1 ->
-                    ResultAdapter(
-                        it,
-                        it1
-                    )
-                }
-            }
+        val userAnswers = viewModel.answerList.value
+        val questions = viewModel.questionList.value
+
+        if (questions != null && userAnswers != null) {
+            logInformation("starting resultadapter with -> ${userAnswers.size} & ${questions.size}")
+            val adapter = ResultAdapter(questions, userAnswers)
+            recyclerView.adapter = adapter
         }
     }
 
