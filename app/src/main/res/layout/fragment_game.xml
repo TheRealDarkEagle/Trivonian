@@ -40,6 +40,7 @@
             android:id="@+id/gameFragmentQuestion"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/guidelineFragmentGame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,17 +62,24 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.6" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/gameFragmentNextButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guidelineFragmentGame"
-            app:layout_constraintStart_toStartOf="parent"></RadioGroup>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guidelineFragmentGame">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+               ></RadioGroup>
+        </androidx.core.widget.NestedScrollView>
 
         <Button
             android:id="@+id/gameFragmentNextButton"
