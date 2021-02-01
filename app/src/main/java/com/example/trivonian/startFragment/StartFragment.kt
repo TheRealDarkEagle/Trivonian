@@ -14,7 +14,7 @@ import com.example.trivonian.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
 
-    private val binding by lazy {
+    private val binding: FragmentStartBinding by lazy {
         FragmentStartBinding.inflate(layoutInflater, null, false)
     }
 
