@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".resultFragment.ResultFragment">
 
         <TextView
-            android:id="@+id/resultFragment_Headline"
+            android:id="@+id/resultFragmentHeadline"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="@string/result_headline"
+            android:layout_height="wrap_content"
+            android:text="@string/resultHeadline"
             android:textAlignment="center"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -24,9 +23,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/resultRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resultFragmentHeadline"
+            tools:itemCount="5"
+            tools:listitem="@layout/text_item_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

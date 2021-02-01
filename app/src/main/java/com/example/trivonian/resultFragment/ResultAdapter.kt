@@ -14,7 +14,6 @@ class ResultAdapter(
     private val userAnswers: List<String>
 ) : RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: TextItemViewBinding = DataBindingUtil.inflate(layoutInflater, R.layout.text_item_view, parent, false)

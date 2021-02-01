@@ -1,24 +1,27 @@
 package com.example.trivonian.startFragment
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
 
-    private lateinit var binding: FragmentStartBinding
+    private val binding: FragmentStartBinding by lazy {
+        FragmentStartBinding.inflate(layoutInflater, null, false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_start, container, false)
         return binding.root
     }
 

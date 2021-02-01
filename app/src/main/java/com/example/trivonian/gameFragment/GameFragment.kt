@@ -27,17 +27,18 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class GameFragment : Fragment(), Logable {
+class GameFragment : Fragment() {
 
-    private lateinit var viewModel: GameFragmentViewModel
-    private lateinit var binding: FragmentGameBinding
+    private val viewModel by activityViewModels<GameFragmentViewModel>()
+    private val binding: FragmentGameBinding by lazy {
+        FragmentGameBinding.inflate(layoutInflater, null, false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
-        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
+        setupQuestion()
         return binding.root
     }
 
@@ -45,27 +46,23 @@ class GameFragment : Fragment(), Logable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameFragmentNextButton.setOnClickListener {
-            registerAnswer()
-        }
-        lifecycleScope.launchWhenCreated {
-            logInformation("launched lifescycle scope")
-            viewModel.question.collect {
-                logInformation("got a hot question dude")
-                if (it != null) {
-                    binding.question = it
-                    logInformation("send the question to binding")
-                    updateAnswers(createAnswerList(it))
-
-                }
-            }
+            questionAnswered()
         }
     }
 
-    private fun createAnswerList(it: Question): List<String> {
-        val answers = mutableListOf(it.correctAnswer)
-        answers.addAll(it.incorrectAnswers)
-        answers.shuffle()
-        return answers
+    private fun setupQuestion() {
+        updateQuestion()
+        updateAnswers()
+    }
+
+    private fun questionAnswered() {
+        registerAnswer()
+        if(viewModel.hasNewQuestion()) {
+            viewModel.getNewQuestion()
+            setupQuestion()
+        } else {
+            directToResultFragment()
+        }
     }
 
     private fun registerAnswer() {
@@ -74,12 +71,6 @@ class GameFragment : Fragment(), Logable {
             val button = view as RadioButton
             if (button.isChecked) {
                 viewModel.questionAnswered(button.text.toString())
-                logInformation(viewModel.gameState.value.toString())
-                if (viewModel.gameState.value == GameState.FINISH) {
-                    directToResultFragment()
-                } else {
-                    viewModel.getNewQuestion()
-                }
             }
         }
     }
@@ -102,4 +93,7 @@ class GameFragment : Fragment(), Logable {
         }
     }
 
+    private fun updateQuestion() {
+        binding.question = viewModel.question
+    }
 }
