@@ -11,13 +11,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".gameFragment.GameFragment">
 
         <TextView
-            android:id="@+id/gameFragment_header"
+            android:id="@+id/gameFragmentHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -29,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/gameFragment_question"
+            android:id="@+id/gameFragmentQuestion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,7 +38,7 @@
             android:text="@{question.questionText}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gameFragment_header"
+            app:layout_constraintTop_toBottomOf="@+id/gameFragmentHeader"
             tools:text="@tools:sample/lorem"/>
 
         <RadioGroup
@@ -49,15 +48,15 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toTopOf="@+id/gameFragment_nextButton"
+            app:layout_constraintBottom_toTopOf="@+id/gameFragmentNextButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gameFragment_question">
+            app:layout_constraintTop_toBottomOf="@+id/gameFragmentQuestion">
 
         </RadioGroup>
 
         <Button
-            android:id="@+id/gameFragment_nextButton"
+            android:id="@+id/gameFragmentNextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
