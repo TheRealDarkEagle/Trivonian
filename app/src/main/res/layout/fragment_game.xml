@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="question"
-            type="com.example.trivonian.dataclasses.Question"
-            />
+            type="com.example.trivonian.dataclasses.Question" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,45 +15,63 @@
         android:layout_height="match_parent"
         tools:context=".gameFragment.GameFragment">
 
+
         <TextView
             android:id="@+id/gameFragmentHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/gameFragmentHeaderText"
+            android:layout_marginTop="0dp"
             android:gravity="center"
+            android:text="@string/gameFragmentHeaderText"
             android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@id/guidelineFragmentGameHeadline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/gameFragmentQuestion"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineFragmentGameHeadline"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="30sp"
-            android:text="@{question.questionText}"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/gameFragmentQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineFragmentGame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gameFragmentHeader"
-            tools:text="@tools:sample/lorem"/>
+            app:layout_constraintTop_toBottomOf="@id/guidelineFragmentGameHeadline">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:maxLines="10"
+                android:text="@{question.questionText}"
+                android:textSize="30sp"
+                tools:text="@tools:sample/lorem/random" />
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineFragmentGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/gameFragmentNextButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gameFragmentQuestion">
-
-        </RadioGroup>
+            app:layout_constraintStart_toEndOf="@id/guidelineFragmentGame"
+            app:layout_constraintStart_toStartOf="parent"></RadioGroup>
 
         <Button
             android:id="@+id/gameFragmentNextButton"
@@ -66,6 +84,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
