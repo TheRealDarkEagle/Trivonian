@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -16,15 +17,15 @@ import com.example.trivonian.databinding.FragmentResultBinding
 class ResultFragment : Fragment() {
 
     lateinit var recyclerView: RecyclerView
-    lateinit var binding: FragmentResultBinding
-    lateinit var viewModel: ResultFragmentViewModel
+    private val binding by lazy {
+        FragmentResultBinding.inflate(layoutInflater, null, false)
+    }
+    private val viewModel by activityViewModels<ResultFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_result, container, false)
-        viewModel = ViewModelProvider(this).get(ResultFragmentViewModel::class.java)
         return binding.root
     }
 
@@ -32,7 +33,6 @@ class ResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.resultRecyclerView)
         recyclerView.adapter = ResultAdapter(viewModel.questionList, viewModel.answerList)
-        //Fertigstellung der RecyclerView https://www.youtube.com/watch?v=18VcnYN5_LM
     }
 
 }

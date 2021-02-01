@@ -11,5 +11,5 @@
     <string name="result_question_userAnswer">USER ANSWER</string>
     <string name="result_question_correctAnswer">CORRECT ANSWER</string>
     <string name="result_userAnswer_label">Deine Antwort:</string>
-    <string name="result_correctAnswer_label">Richtige Antwort:</string>
+    <string name="result_correctAnswer_label" translatable="false">Richtige Antwort:</string>
 </resources>

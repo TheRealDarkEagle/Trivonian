@@ -1,38 +1,31 @@
 package com.example.trivonian.gameFragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.core.view.children
-import androidx.core.view.get
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.example.trivonian.R
 import com.example.trivonian.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
 
-    private lateinit var viewModel: GameFragmentViewModel
-    private lateinit var binding: FragmentGameBinding
+    private val viewModel by activityViewModels<GameFragmentViewModel>()
+    private val binding: FragmentGameBinding by lazy {
+        FragmentGameBinding.inflate(layoutInflater, null, false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
-        viewModel = ViewModelProvider(this).get(GameFragmentViewModel::class.java)
         setupQuestion()
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +36,7 @@ class GameFragment : Fragment() {
 
     private fun setupQuestion() {
         updateQuestion()
-        updateAnswers()
+        createRadioButtons()
     }
 
     private fun questionAnswered() {
@@ -73,21 +66,24 @@ class GameFragment : Fragment() {
 
     }
 
-    private fun updateAnswers() {
-
+    private fun createRadioButtons() {
         val radioGroup = binding.radioGroup
         radioGroup.removeAllViews()
         for (answer in viewModel.possibleAnswers) {
-            val radioButton = RadioButton(this.requireContext())
-            radioButton.text = answer
-            radioButton.id = View.generateViewId()
-            radioButton.textSize = 25f
-            
-            radioGroup.addView(radioButton)
+            radioGroup.addView(customizeRadioButton(answer))
         }
+    }
+
+    private fun customizeRadioButton(answer: String): RadioButton {
+        val radioButton = RadioButton(this.requireContext())
+        radioButton.text = answer
+        radioButton.id = View.generateViewId()
+        radioButton.textSize = 25f
+        return radioButton
     }
 
     private fun updateQuestion() {
         binding.question = viewModel.question
     }
+
 }
