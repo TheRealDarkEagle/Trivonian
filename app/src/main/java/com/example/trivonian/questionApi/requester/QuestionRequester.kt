@@ -9,20 +9,16 @@ import okhttp3.Response
 
 class QuestionRequester : DataRequester {
 
-    //Client über den die Requests ablaufen werden
     private val client: OkHttpClient = OkHttpClient()
 
-    // request darf für später noch angepasst werden
-    // für den momentanen lauf ist dies vollkommen okay
+    // da die mögklichkeit des Custome Game noch nicht implementiert ist
+    // halten wir bis dahin eine feste URL
     private val request: Request
         get() = Request.Builder()
             .url("https://opentdb.com/api.php?amount=10")
             .build()
 
-    /**
-     * Requests the Question from the api
-     *
-     */
+
     override suspend fun requestQuestions(): String = withContext(IO) {
         requestData() ?: getMockedQuestion()
     }
