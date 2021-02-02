@@ -1,15 +1,16 @@
 <resources>
-    <string name="app_name">Trivonian</string>
-    <string name="welcomeText">Welcome To Trivonian</string>
-    <string name="howToPlayLabel">How to Play:</string>
-    <string name="howToPlayText">Tap the \'Play Now!\' Button to start the Game</string>
-    <string name="playNowLabel">Play Now!</string>
-    <string name="gameFragmentHeaderText">Question</string>
-    <string name="gameFragmentNextButton">Next</string>
-    <string name="resultHeadline">RESULT</string>
-    <string name="result_question_headline">QUESTION</string>
-    <string name="result_question_userAnswer">USER ANSWER</string>
-    <string name="result_question_correctAnswer">CORRECT ANSWER</string>
-    <string name="resultUserAnswerLabel">Deine Antwort:</string>
+    <string name="app_name" translatable="false">Trivonian</string>
+    <string name="welcomeText" translatable="false">Welcome To Trivonian</string>
+    <string name="howToPlayLabel" translatable="false">How to Play:</string>
+    <string name="howToPlayText" translatable="false">Tap the \'Play Now!\' Button to start the Game</string>
+    <string name="playNowLabel" translatable="false">Play Now!</string>
+    <string name="gameFragmentHeaderText" translatable="false">Question</string>
+    <string name="gameFragmentNextButton" translatable="false">Next</string>
+    <string name="resultHeadline" translatable="false">RESULT</string>
+    <string name="result_question_headline" translatable="false">QUESTION</string>
+    <string name="result_question_userAnswer" translatable="false">USER ANSWER</string>
+    <string name="result_question_correctAnswer" translatable="false">CORRECT ANSWER</string>
+    <string name="resultUserAnswerLabel" translatable="false">Deine Antwort:</string>
     <string name="resultCorrectAnswerLabel" translatable="false">Richtige Antwort:</string>
+    <string name="resultFragmentPlayAgain" translatable="false">Play Again</string>
 </resources>
