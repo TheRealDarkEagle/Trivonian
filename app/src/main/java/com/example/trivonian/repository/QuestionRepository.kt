@@ -20,15 +20,13 @@ object QuestionRepository : Repository {
 
     override suspend fun getQuestion(): Question = withContext(IO) {
         logInformation("The QuestionIndex -> $questionIndex")
+        if(questions.isEmpty()) {
+            questions = CoroutineScope(IO).async {
+                resetGame()
+                QuestionApi().requestQuestions().shuffled().toMutableList()
+            }.await()
+        }
         questions[questionIndex++]
-    }
-
-    override suspend fun loadNewQuestions() {
-        questions = CoroutineScope(IO).async {
-            resetGame()
-            QuestionApi().requestQuestions().shuffled().toMutableList()
-        }.await()
-
     }
 
     override suspend fun saveAnswer(answer: String) {
