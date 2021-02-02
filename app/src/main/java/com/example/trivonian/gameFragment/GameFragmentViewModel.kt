@@ -12,10 +12,9 @@ import kotlinx.coroutines.launch
 
 class GameFragmentViewModel : ViewModel(), Logable {
 
-    //innerhalb des vm wird mit dem privaten objekt gearbeitet!
     private val _repository = QuestionRepository
-    private val _gameState = MutableStateFlow(GameState.LOADING)
-    private val _question =
+    private val _gameState: MutableStateFlow<GameState> = MutableStateFlow(GameState.LOADING)
+    private val _question: MutableStateFlow<Question> =
         MutableStateFlow(
             Question(
                 "",
@@ -24,13 +23,13 @@ class GameFragmentViewModel : ViewModel(), Logable {
             )
         )
 
-
     val question: StateFlow<Question> = _question
     val gameState: StateFlow<GameState> = _gameState
 
     init {
         setup()
     }
+
 
     private fun setup() {
         getQuestion()
@@ -56,11 +55,11 @@ class GameFragmentViewModel : ViewModel(), Logable {
 
     private fun checkGameState() {
         viewModelScope.launch {
-           val hasAnotherQuestion = async {
-               _repository.hasAnotherQuestion()
-           }.await()
+            val hasAnotherQuestion = async {
+                _repository.hasAnotherQuestion()
+            }.await()
 
-            if(hasAnotherQuestion) {
+            if (hasAnotherQuestion) {
                 setGameState(GameState.RUNNING)
             } else {
                 setGameState(GameState.FINISH)
@@ -69,7 +68,7 @@ class GameFragmentViewModel : ViewModel(), Logable {
     }
 
     private fun setGameState(state: GameState) {
-        if(_gameState.value != state) {
+        if (_gameState.value != state) {
             _gameState.value = state
             logInformation("Gamestate was succesfully set to -> ${state}")
         }

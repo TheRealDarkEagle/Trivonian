@@ -3,7 +3,7 @@ package com.example.trivonian.questionApi.datacleaner
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
-class HtmlCharacterCorrector: DataCleaner {
+class HtmlCharacterCorrector : DataCleaner {
 
     override suspend fun clean(text: String): String = withContext(IO) {
         replaceEncodingIssus(text)
@@ -23,9 +23,14 @@ class HtmlCharacterCorrector: DataCleaner {
 
     companion object {
         val htmlCharacterMapper: Map<String, String>
-            get() = mapOf("&#039;" to "´",
-                        "&quot;" to "\\\"",
-                        "&amp;" to "&",
-                        "&eacute;" to "é")
+            get() = mapOf(
+                "&#039;" to "´",
+                "&quot;" to "\\\"",
+                "&amp;" to "&",
+                "&eacute;" to "é",
+                "&iacute;" to "ì",
+                "&aacute;" to "à",
+                "&Uuml;" to "Ü"
+            )
     }
 }

@@ -36,13 +36,12 @@ class GameFragment : Fragment(), Logable {
         binding.gameFragmentNextButton.setOnClickListener {
             questionAnswered()
         }
-        //
+        logInformation("onViewCreated")
         lifecycleScope.launchWhenCreated {
-            logInformation("launched lifecycle scope")
+            logInformation("launched collecting of questions from viewModel")
             viewModel.question.collect {
-                logInformation("got a hot question dude")
+                logInformation("recieved question")
                 binding.question = it
-                logInformation("send the question to binding")
                 updateAnswers(createAnswerList(it))
             }
         }
@@ -83,15 +82,19 @@ class GameFragment : Fragment(), Logable {
     }
 
     private fun updateAnswers(answers: List<String>) {
+        logInformation("updating Answers")
         val radioGroup = binding.radioGroup
         radioGroup.removeAllViews()
         for (answer in answers) {
-            val radioButton = RadioButton(this.requireContext())
-            radioButton.text = answer
-            radioButton.id = View.generateViewId()
-            radioButton.textSize = 25f
-
-            radioGroup.addView(radioButton)
+            radioGroup.addView(createRadioButton(answer))
         }
+    }
+
+    private fun createRadioButton(answer: String): RadioButton {
+        val radioButton = RadioButton(this.requireContext())
+        radioButton.text = answer
+        radioButton.id = View.generateViewId()
+        radioButton.textSize = 25f
+        return radioButton
     }
 }

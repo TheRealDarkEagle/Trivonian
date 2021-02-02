@@ -4,6 +4,7 @@ import com.example.trivonian.dataclasses.Question
 import com.example.trivonian.questionApi.QuestionApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -18,15 +19,16 @@ object QuestionRepository : Repository {
     }
 
     override suspend fun getQuestion(): Question = withContext(IO) {
-        logInformation("The QuestionIndex -> questionIndex")
-        if(questions.isEmpty()) {
-            CoroutineScope(IO).launch {
-                resetGame()
-                questions = QuestionApi().requestQuestions().shuffled().toMutableList()
-                logInformation("received Questions!")
-            }.join()
-        }
+        logInformation("The QuestionIndex -> $questionIndex")
         questions[questionIndex++]
+    }
+
+    override suspend fun loadNewQuestions() {
+        questions = CoroutineScope(IO).async {
+            resetGame()
+            QuestionApi().requestQuestions().shuffled().toMutableList()
+        }.await()
+
     }
 
     override suspend fun saveAnswer(answer: String) {
@@ -41,12 +43,11 @@ object QuestionRepository : Repository {
         return userAnswers.toList()
     }
 
-    override suspend fun resetGame() {
-        withContext(IO) {
-            questionIndex = 0
-            userAnswers = mutableListOf()
-            logInformation("Reset Game!")
-        }
+    override fun resetGame() {
+        questionIndex = 0
+        userAnswers = mutableListOf()
+        questions = mutableListOf()
+        logInformation("Reset Game!")
     }
 
     override suspend fun hasAnotherQuestion(): Boolean = withContext(IO) {
