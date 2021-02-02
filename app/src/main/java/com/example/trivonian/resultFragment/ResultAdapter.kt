@@ -8,11 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.trivonian.R
 import com.example.trivonian.databinding.TextItemViewBinding
 import com.example.trivonian.dataclasses.Question
+import com.example.trivonian.util.logger.Logable
 
 class ResultAdapter(
     private val questions: List<Question>,
     private val userAnswers: List<String>
-) : RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ResultAdapter.ViewHolder>(), Logable {
+
+    init {
+        logInformation("resultAdapter go initialized")
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,10 +26,12 @@ class ResultAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        logInformation("binding ${questions[position]}")
         holder.bind(questions[position], userAnswers[position])
     }
 
     override fun getItemCount(): Int {
+        logInformation("requesting itemCount -> ${questions.size}")
         return questions.size
     }
 

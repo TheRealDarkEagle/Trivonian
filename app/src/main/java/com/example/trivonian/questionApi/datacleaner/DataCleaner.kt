@@ -1,6 +1,8 @@
 package com.example.trivonian.questionApi.datacleaner
 
-interface DataCleaner {
+import com.example.trivonian.util.logger.Logable
 
-    fun clean(text: String): String
+interface DataCleaner: Logable {
+
+    suspend fun clean(text: String): String
 }

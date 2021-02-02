@@ -1,11 +1,9 @@
 package com.example.trivonian.questionApi.requester
 
-/*
-Übernimmt das Requesten der Daten
- */
+import com.example.trivonian.util.logger.Logable
 
-interface DataRequester {
+interface DataRequester: Logable {
 
-    fun requestQuestions(): String
+    suspend fun requestQuestions(): String
 
 }

@@ -1,12 +1,10 @@
 package com.example.trivonian.questionApi
 
 import com.example.trivonian.dataclasses.Question
+import com.example.trivonian.util.logger.Logable
 
-/*
-Aufgabe ist die Delegation der einzelnen Schritte zur vollbringung vom Request zum richtigen Objekt
- */
-interface Api {
+interface Api: Logable {
 
-    fun requestQuestions(): List<Question>
+    suspend fun requestQuestions(): List<Question>
 
 }

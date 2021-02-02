@@ -1,27 +1,33 @@
 package com.example.trivonian.questionApi.requester
 
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.ResponseBody
+import okhttp3.Response
 
 class QuestionRequester : DataRequester {
 
-    //Client über den die Requests ablaufen werden
     private val client: OkHttpClient = OkHttpClient()
 
-    // request darf für später noch angepasst werden
-    // für den momentanen lauf ist dies vollkommen okay
+    // da die mögklichkeit des Custome Game noch nicht implementiert ist
+    // halten wir bis dahin eine feste URL
     private val request: Request
         get() = Request.Builder()
             .url("https://opentdb.com/api.php?amount=10")
             .build()
 
-    /**
-     * Requests the Question from the api
-     *
-     */
-    override fun requestQuestions(): String {
-        return getMockedQuestion()
+
+    override suspend fun requestQuestions(): String = withContext(IO) {
+        requestData() ?: getMockedQuestion()
+    }
+
+    private suspend fun requestData(): String? = withContext(IO) {
+        logInformation("sending request to server!")
+        val response = client.newCall(request).execute()
+        logInformation("request executet!")
+        response.body?.string()
     }
 
 
